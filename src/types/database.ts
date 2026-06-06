@@ -14,7 +14,252 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          booking_date: string
+          box_id: string
+          car_brand: string
+          car_model: string
+          client_name: string
+          client_phone: string
+          created_at: string
+          id: string
+          program_id: string
+          status: string
+          time_slot: string
+          total_price: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          booking_date: string
+          box_id: string
+          car_brand: string
+          car_model: string
+          client_name: string
+          client_phone: string
+          created_at?: string
+          id?: string
+          program_id: string
+          status?: string
+          time_slot: string
+          total_price: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          booking_date?: string
+          box_id?: string
+          car_brand?: string
+          car_model?: string
+          client_name?: string
+          client_phone?: string
+          created_at?: string
+          id?: string
+          program_id?: string
+          status?: string
+          time_slot?: string
+          total_price?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_box_id_fkey"
+            columns: ["box_id"]
+            isOneToOne: false
+            referencedRelation: "boxes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "wash_programs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      boxes: {
+        Row: {
+          id: string
+          is_active: boolean
+          name: string
+          number: number
+        }
+        Insert: {
+          id?: string
+          is_active?: boolean
+          name: string
+          number: number
+        }
+        Update: {
+          id?: string
+          is_active?: boolean
+          name?: string
+          number?: number
+        }
+        Relationships: []
+      }
+      loyalty_points: {
+        Row: {
+          id: string
+          points: number
+          total_spent: number
+          total_visits: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          points?: number
+          total_spent?: number
+          total_visits?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          points?: number
+          total_spent?: number
+          total_visits?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_points_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          car_brand: string | null
+          car_model: string | null
+          car_year: number | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          car_brand?: string | null
+          car_model?: string | null
+          car_year?: number | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          car_brand?: string | null
+          car_model?: string | null
+          car_year?: number | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      visits_history: {
+        Row: {
+          bookings_id: string | null
+          car_brand: string
+          car_model: string
+          id: string
+          points_earned: number
+          program_name: string
+          total_price: number
+          user_id: string | null
+          visited_at: string
+        }
+        Insert: {
+          bookings_id?: string | null
+          car_brand: string
+          car_model: string
+          id?: string
+          points_earned?: number
+          program_name: string
+          total_price: number
+          user_id?: string | null
+          visited_at?: string
+        }
+        Update: {
+          bookings_id?: string | null
+          car_brand?: string
+          car_model?: string
+          id?: string
+          points_earned?: number
+          program_name?: string
+          total_price?: number
+          user_id?: string | null
+          visited_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visits_history_bookings_id_fkey"
+            columns: ["bookings_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visits_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wash_programs: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration_min: number
+          id: string
+          is_active: boolean
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration_min: number
+          id?: string
+          is_active?: boolean
+          name: string
+          price: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration_min?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
