@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { Header } from '@/components/layout/Header';
 import { ProtectedRoute } from '@/components/layout/ProtectedRoute';
 import { LandingPage } from '@/pages/LandingPage';
@@ -16,24 +17,26 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename='/carwash-mvp'>
-        <Header />
+        <AuthProvider>
+          <Header />
 
-        <Routes>
-          <Route path='/' element={<LandingPage />} />
-          <Route path='/booking' element={<BookingPage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
-          
-          <Route element={<ProtectedRoute />}>
-            <Route path='/cabinet' element={<CabinetPage />} />
-          </Route>
+          <Routes>
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/booking' element={<BookingPage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/register' element={<RegisterPage />} />
 
-          <Route element={<ProtectedRoute requiredRole='admin' />}>
-            <Route path='/admin' element={<AdminLayout />}>
-              <Route index element={<AdminDashboard />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path='/cabinet' element={<CabinetPage />} />
             </Route>
-          </Route>
-        </Routes>
+
+            <Route element={<ProtectedRoute requiredRole='admin' />}>
+              <Route path='/admin' element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+              </Route>
+            </Route>
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   )
