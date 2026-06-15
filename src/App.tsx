@@ -10,6 +10,9 @@ import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { CabinetPage } from '@/pages/cabinet/CabinetPage';
 import { AdminLayout } from '@/pages/admin/AdminLayout';
 import { AdminDashboard } from '@/pages/admin/AdminDashboard';
+import { AdminSchedule } from './pages/admin/AdminSchedule';
+import { AdminClients } from './pages/admin/AdminClients';
+import { AdminAnalytics } from './pages/admin/AdminAnalytics';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +36,9 @@ export default function App() {
             <Route element={<ProtectedRoute requiredRole='admin' />}>
               <Route path='/admin' element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
+                <Route path='schedule' element={<AdminSchedule />} />
+                <Route path='clients' element={<AdminClients />} />
+                <Route path='analytics' element={<AdminAnalytics />} />
               </Route>
             </Route>
           </Routes>
