@@ -59,7 +59,7 @@ export function HistoryTab() {
       .eq('user_id', user!.id)
       .order('booking_date', { ascending: false })
 
-    if (data) setBookings(data as Booking[])
+    if (data) setBookings(data as unknown as Booking[])
     setIsLoading(false)
   }
 
@@ -80,7 +80,7 @@ export function HistoryTab() {
   }
 
   async function cancelBooking(id: string) {
-    if (!confirm('Отменить запись?')) return 
+    if (!confirm('Отменить запись?')) return
 
     await supabase
       .from('bookings')

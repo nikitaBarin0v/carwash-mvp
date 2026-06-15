@@ -74,8 +74,8 @@ export function RegisterPage() {
             <div className='space-y-2'>
               <Label htmlFor='email'>Email</Label>
               <Input id='email' type='email' placeholder='example@mail.com' {...register('email')} />
-              {errors.password && (
-                <p className='text-sm text-destructive'>{errors.email.message}</p>
+              {errors.email?.message && (
+                <p className="text-sm text-destructive">{errors.email.message}</p>
               )}
             </div>
 

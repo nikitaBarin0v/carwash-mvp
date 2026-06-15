@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { ru } from "date-fns/locale"
 import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -94,7 +93,7 @@ export function BookingPage() {
         .select('*')
         .eq('is_active', true)
         .order('price')
-      
+
       const boxesResult = await supabase
         .from('boxes')
         .select('*')
@@ -103,7 +102,7 @@ export function BookingPage() {
       if (programsResult.data) setPrograms(programsResult.data)
       if (boxesResult.data) setBoxes(boxesResult.data)
     }
-  fetchData()
+    fetchData()
   }, [])
 
   useEffect(() => {
@@ -243,15 +242,15 @@ export function BookingPage() {
               selectedProgram?.id === program.id
                 ? 'border-blue-600 ring-2 ring-blue-600'
                 : 'hover:border-blue-300'
-              )} onClick={() => setSelectedProgram(program)}>
-                <CardHeader>
-                  <CardTitle className='text-lg'>{program.name}</CardTitle>
-                  <CardDescription>{program.description}</CardDescription>
-                </CardHeader>
-                <CardContent className='space-y-2'>
-                  <p className='text-2xl font-bold text-blue-600'>{program.price} ₽</p>
-                  <p className='text-sm text-gray-500'>⏱ {program.duration_min} мин</p>
-                </CardContent>
+            )} onClick={() => setSelectedProgram(program)}>
+              <CardHeader>
+                <CardTitle className='text-lg'>{program.name}</CardTitle>
+                <CardDescription>{program.description}</CardDescription>
+              </CardHeader>
+              <CardContent className='space-y-2'>
+                <p className='text-2xl font-bold text-blue-600'>{program.price} ₽</p>
+                <p className='text-sm text-gray-500'>⏱ {program.duration_min} мин</p>
+              </CardContent>
             </Card>
           ))}
           <div className='col-span-full flex justify-end'>
@@ -270,7 +269,7 @@ export function BookingPage() {
             </CardHeader>
             <CardContent>
               <Calendar mode='single' selected={selectedDate} onSelect={setSelectedDate} locale={ru} disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0,))}
-              className='rounded-md' />
+                className='rounded-md' />
             </CardContent>
           </Card>
 
@@ -302,10 +301,10 @@ export function BookingPage() {
                         className={cn(
                           'py-2 px-3 rounded-lg text-sm font-medium border transition-all',
                           isSelected
-                          ? 'bg-blue-600 text-white border-blue-600'
-                          : isUnavailable
-                          ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'
-                          : 'bg-white text-gray-700 border-gray-200 hover:border-blue-400'
+                            ? 'bg-blue-600 text-white border-blue-600'
+                            : isUnavailable
+                              ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'
+                              : 'bg-white text-gray-700 border-gray-200 hover:border-blue-400'
                         )}
                       >
                         {time}
@@ -357,7 +356,7 @@ export function BookingPage() {
               <Input
                 id='client_name'
                 placeholder='Иван Иванов'
-                { ...register('client_name') }
+                {...register('client_name')}
               />
               {errors.client_name && (
                 <p className='text-sm text-destructive'>{errors.client_name.message}</p>
@@ -366,10 +365,10 @@ export function BookingPage() {
 
             <div className='space-y-2'>
               <Label htmlFor='client_phone'>Номер телефона</Label>
-              <Input 
+              <Input
                 id='client_phone'
                 placeholder='+7 (999) 000-00-00'
-                { ...register('client_phone') }
+                {...register('client_phone')}
               />
               {errors.client_phone && (
                 <p className='text-sm text-destructive'>{errors.client_phone.message}</p>
@@ -379,10 +378,10 @@ export function BookingPage() {
             <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
                 <Label htmlFor='car_brand'>Марка авто</Label>
-                <Input 
+                <Input
                   id='car_brand'
                   placeholder='Toyota'
-                  { ...register('car_brand') }
+                  {...register('car_brand')}
                 />
                 {errors.car_brand && (
                   <p className='text-sm text-destructive'>{errors.car_brand.message}</p>
@@ -391,10 +390,10 @@ export function BookingPage() {
 
               <div className='space-y-2'>
                 <Label htmlFor='car_model'>Модель авто</Label>
-                <Input 
+                <Input
                   id='car_model'
                   placeholder='Camry'
-                  { ...register('car_model') }
+                  {...register('car_model')}
                 />
                 {errors.car_model && (
                   <p className='text-sm text-destructive'>{errors.car_model.message}</p>

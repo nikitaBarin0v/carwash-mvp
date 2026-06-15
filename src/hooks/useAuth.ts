@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Profile } from "@/types/user";
+import { Profile, UserRole } from "@/types/user";
 import { Session, User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 
@@ -45,8 +45,14 @@ export function useAuth(): AuthState {
       .select('*')
       .eq('id', userId)
       .single()
-    
-    setProfile(data)
+
+    if (data) {
+      setProfile({
+        ...data,
+        role: data.role as UserRole,
+      })
+    }
+  
     setIsLoading(false)
   }
 

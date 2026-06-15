@@ -12,7 +12,7 @@ interface Client {
   car_brand: string | null
   car_model: string | null
   created_at: string
-  loyalty_points: { points: number; loyalty_visits: number; total_spent: number }[]
+  loyalty_points: { points: number; total_visits: number; total_spent: number }[]
 }
 
 export function AdminClients() {
@@ -33,7 +33,7 @@ export function AdminClients() {
       .eq('role', 'client')
       .order('created_at', { ascending: false })
 
-    if (data) setClients(data as Client[])
+    if (data) setClients(data as unknown as Client[])
     setIsLoading(false)
   }
 

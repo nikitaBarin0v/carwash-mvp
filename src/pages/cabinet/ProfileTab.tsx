@@ -17,7 +17,8 @@ const profileSchema = z.object({
   car_year: z.coerce.number()
     .min(1990, 'Минимальный год 1990')
     .max(new Date().getFullYear(), 'Некорректный год')
-    .optional(),
+    .optional()
+    .or(z.literal(0).transform(() => undefined)),
 })
 
 type ProfileForm = z.infer<typeof profileSchema>
