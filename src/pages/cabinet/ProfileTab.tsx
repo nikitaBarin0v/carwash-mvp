@@ -17,11 +17,17 @@ const profileSchema = z.object({
   car_year: z.coerce.number()
     .min(1990, 'Минимальный год 1990')
     .max(new Date().getFullYear(), 'Некорректный год')
-    .optional()
-    .or(z.literal(0).transform(() => undefined)),
+    .nullable()
+    .optional(),
 })
 
-type ProfileForm = z.infer<typeof profileSchema>
+type ProfileForm = {
+  full_name: string
+  phone: string
+  car_brand: string
+  car_model: string
+  car_year?: number | null
+}
 
 
 export function ProfileTab() {
@@ -30,7 +36,7 @@ export function ProfileTab() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(profileSchema) as any,
     defaultValues: {
       full_name: profile?.full_name ?? '',
       phone: profile?.phone ?? '',
