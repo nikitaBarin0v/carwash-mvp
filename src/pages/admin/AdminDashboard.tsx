@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/shared/Spinner"
 
 interface Booking {
   id: string
@@ -74,7 +75,7 @@ export function AdminDashboard() {
       .order('time_slot')
 
     if (data) setBookings(data as Booking[])
-      setIsLoading(false)
+    setIsLoading(false)
   }
 
   async function updateStatus(id: string, newStatus: string) {
@@ -97,16 +98,16 @@ export function AdminDashboard() {
       .select('user_id')
       .eq('id', bookingId)
       .single()
-    
-    if (!booking?.user_id) return 
+
+    if (!booking?.user_id) return
 
     const { data: loyalty } = await supabase
       .from('loyalty_points')
       .select('points, total_visits, total_spent')
       .eq('user_id', booking.user_id)
       .single()
-    
-    if (!loyalty) return 
+
+    if (!loyalty) return
 
     await supabase
       .from('loyalty_points')
@@ -122,11 +123,11 @@ export function AdminDashboard() {
   const totalBookings = bookings.filter(b => b.status !== 'cancelled').length
   const inProgress = bookings.filter(b => b.status === 'in_progress').length
   const completed = bookings.filter(b => b.status === 'completed').length
-  const totalRevenue = bookings 
+  const totalRevenue = bookings
     .filter(b => b.status === 'completed')
     .reduce((sum, b) => sum + b.total_price, 0)
 
-  if (isLoading) return <p className='text-muted-foreground'>Загрузка...</p>
+  if (isLoading) return <p className='flex justify-center py-10'><Spinner /></p>
 
   return (
     <div className='space-y-6'>

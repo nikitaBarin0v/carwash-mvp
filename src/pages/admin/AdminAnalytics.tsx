@@ -3,6 +3,7 @@ import { format, subDays } from "date-fns"
 import { ru } from "date-fns/locale"
 import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Spinner } from "@/components/shared/Spinner"
 
 interface DayStat {
   date: string
@@ -53,7 +54,7 @@ export function AdminAnalytics() {
   const totalRevenue = stats.reduce((sum, d) => sum + d.revenue, 0);
   const totalCompleted = stats.reduce((sum, d) => sum + d.cancelled, 0);
 
-  if (isLoading) return <p className='text-muted-foreground'>Загрузка...</p>
+  if (isLoading) return <p className='flex justify-center py-10'><Spinner /></p>
 
   return (
     <div className='space-y-6'>

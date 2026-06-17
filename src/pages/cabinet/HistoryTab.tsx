@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase"
 import { useAuthContext } from "@/contexts/AuthContext"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Spinner } from "@/components/shared/Spinner"
 
 interface Booking {
   id: string
@@ -91,7 +92,7 @@ export function HistoryTab() {
   }
 
   if (isLoading) {
-    return <p className='text-muted-foreground'>Загрузка...</p>
+    return <p className='flex justify-center py-10'><Spinner /></p>
   }
 
   return (

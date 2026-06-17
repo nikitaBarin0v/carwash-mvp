@@ -4,6 +4,7 @@ import { ru } from "date-fns/locale"
 import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Spinner } from "@/components/shared/Spinner"
 
 interface Client {
   id: string
@@ -48,7 +49,7 @@ export function AdminClients() {
     )
   })
 
-  if (isLoading) return <p className='text-muted-foreground'>Загрузка...</p>
+  if (isLoading) return <p className='flex justify-center py-10'><Spinner /></p>
 
   return (
     <div className='space-y-6'>
