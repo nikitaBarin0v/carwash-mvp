@@ -13,6 +13,7 @@ import { AdminDashboard } from '@/pages/admin/AdminDashboard';
 import { AdminSchedule } from './pages/admin/AdminSchedule';
 import { AdminClients } from './pages/admin/AdminClients';
 import { AdminAnalytics } from './pages/admin/AdminAnalytics';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ export default function App() {
                 <Route path='analytics' element={<AdminAnalytics />} />
               </Route>
             </Route>
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
