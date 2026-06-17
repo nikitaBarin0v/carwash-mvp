@@ -6,6 +6,8 @@ import { useAuthContext } from "@/contexts/AuthContext"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Spinner } from "@/components/shared/Spinner"
+import { useNavigate } from "react-router-dom"
+import { EmptyState } from "@/components/shared/EmptyState"
 
 interface Booking {
   id: string
@@ -37,6 +39,7 @@ export function HistoryTab() {
     totalSpent: 0,
     loyaltyPoints: 0,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return
@@ -128,7 +131,12 @@ export function HistoryTab() {
         </CardHeader>
         <CardContent>
           {bookings.length === 0 ? (
-            <p className='text-muted-foreground text-sm'>У вас пока нет записей</p>
+            <EmptyState
+              icon='🚗'
+              title='Записей пока нет'
+              description='Вы ещё не записывались на мойку. Запишитесь прямо сейчас!'
+              action={{ label: 'Записаться на мойку', onClick: () => navigate('/booking') }}
+            />
           ) : (
             <div className='space-y-3'>
               {bookings.map((booking) => {

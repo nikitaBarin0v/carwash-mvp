@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/shared/Spinner"
+import { EmptyState } from "@/components/shared/EmptyState"
 
 interface Booking {
   id: string
@@ -209,7 +210,11 @@ export function AdminDashboard() {
         </CardHeader>
         <CardContent>
           {bookings.length === 0 ? (
-            <p className='text-muted-foreground text-sm'>Записей на сегодня нет</p>
+            <EmptyState
+              icon='📅'
+              title='Записей на сегодня нет'
+              description='На сегодня ещё никто не записался'
+            />
           ) : (
             <div className='space-y-3'>
               {bookings.map((booking) => {

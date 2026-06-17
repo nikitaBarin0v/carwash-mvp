@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Spinner } from "@/components/shared/Spinner"
+import { EmptyState } from "@/components/shared/EmptyState"
 
 interface Client {
   id: string
@@ -67,7 +68,11 @@ export function AdminClients() {
 
       <div className='space-y-3'>
         {filtered.length === 0 ? (
-          <p className='text-muted-foreground text-sm'>Клиент не найден</p>
+          <EmptyState
+            icon='👥'
+            title='Клиенты не найдены'
+            description='Попробуйте изменить параметры поиска'
+          />
         ) : (
           filtered.map(client => {
             const loyalty = client.loyalty_points[0];
