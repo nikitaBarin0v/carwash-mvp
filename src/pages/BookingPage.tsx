@@ -174,6 +174,17 @@ export function BookingPage() {
     setIsLoading(false)
   }
 
+  function isSlotTooSoon(date: Date, time: string): boolean {
+    const [hours, minutes] = time.split(':').map(Number);
+    const slotDateTime = new Date(date);
+    slotDateTime.setHours(hours, minutes, 0, 0);
+
+    const oneHourFromNow = new Date();
+    oneHourFromNow.setHours(oneHourFromNow.getHours() + 1);
+
+    return slotDateTime < oneHourFromNow
+  }
+
   if (isSubmitted) {
     return (
       <div className='flex items-center justify-center min-h-[calc(100vh-64px)] px-4'>
@@ -292,7 +303,11 @@ export function BookingPage() {
                   {TIME_SLOTS.map((time) => {
                     const available = getSlotAvailability(time);
                     const isUnavailable = available === 0;
-                    const isSelected = selectedTime === time
+                    const isSelected = selectedTime === time;
+                    const isTooSoon = selectedDate
+                      ? isSlotTooSoon(selectedDate, time)
+                      : false
+                    const isDisabled = isUnavailable || isTooSoon;
 
                     return (
                       <button
@@ -316,6 +331,9 @@ export function BookingPage() {
                         )}
                         {isUnavailable && (
                           <span className='block text-xs'>Занято</span>
+                        )}
+                        {isTooSoon && (
+                          <span className='block text-xs'>Недоступно</span>
                         )}
                       </button>
                     )
