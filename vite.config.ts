@@ -15,4 +15,9 @@ export default defineConfig({
     },
   },
   base: '/carwash-mvp',
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+  },
 });
