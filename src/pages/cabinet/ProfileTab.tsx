@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { supabase } from "@/lib/supabase"
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { PhoneInput } from "@/components/shared/PhoneInput"
 
 const profileSchema = z.object({
   full_name: z.string().min(2, 'Минимум 2 символа'),
@@ -35,7 +36,7 @@ export function ProfileTab() {
   const [isSaved, setIsSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>({
+  const { register, handleSubmit, control, formState: { errors } } = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema) as any,
     defaultValues: {
       full_name: profile?.full_name ?? '',
@@ -90,7 +91,13 @@ export function ProfileTab() {
 
           <div className='space-y-2'>
             <Label htmlFor='phone'>Номер телефона</Label>
-            <Input id='phone' placeholder='+7 (999) 000-00-00' {...register('phone')} />
+            <Controller
+              name='phone'
+              control={control}
+              render={({ field }) => (
+                <PhoneInput value={field.value} onChange={field.onChange} />
+              )}
+            />
             {errors.phone && (
               <p className='text-sm text-destructive'>{errors.phone.message}</p>
             )}

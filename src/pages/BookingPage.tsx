@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import { supabase } from "@/lib/supabase"
 import { useAuthContext } from "@/contexts/AuthContext"
 import { cn } from "@/lib/utils"
+import { PhoneInput } from "@/components/shared/PhoneInput"
 
 const WORK_HOURS_START = 8;
 const WORK_HOURS_END = 20;
@@ -67,7 +68,7 @@ export function BookingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3>(1);
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<BookingForm>({
+  const { register, handleSubmit, control, setValue, formState: { errors } } = useForm<BookingForm>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       client_name: profile?.full_name ?? '',
@@ -365,10 +366,12 @@ export function BookingPage() {
 
             <div className='space-y-2'>
               <Label htmlFor='client_phone'>Номер телефона</Label>
-              <Input
-                id='client_phone'
-                placeholder='+7 (999) 000-00-00'
-                {...register('client_phone')}
+              <Controller
+                name='client_phone'
+                control={control}
+                render={({ field }) => (
+                  <PhoneInput value={field.value} onChange={field.onChange} />
+                )}
               />
               {errors.client_phone && (
                 <p className='text-sm text-destructive'>{errors.client_phone.message}</p>
