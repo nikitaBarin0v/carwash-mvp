@@ -113,7 +113,7 @@ export function BookingPage() {
       const dateStr = format(selectedDate!, 'yyyy-MM-dd')
       const { data } = await supabase
         .from('bookings')
-        .select('*')
+        .select('time_slot, box_id')
         .eq('booking_date', dateStr)
         .neq('status', 'cancelled')
 
@@ -312,8 +312,8 @@ export function BookingPage() {
                     return (
                       <button
                         key={time}
-                        disabled={isUnavailable}
-                        onClick={() => setSelectedTime(time)}
+                        disabled={isDisabled}
+                        onClick={() => !isDisabled && setSelectedTime(time)}
                         className={cn(
                           'py-2 px-3 rounded-lg text-sm font-medium border transition-all',
                           isSelected
@@ -329,10 +329,10 @@ export function BookingPage() {
                             {available} бокс{available === 1 ? '' : available < 5 ? 'а' : 'ов'}
                           </span>
                         )}
-                        {isUnavailable && (
+                        {isUnavailable && !isTooSoon && (
                           <span className='block text-xs'>Занято</span>
                         )}
-                        {isTooSoon && (
+                        {isTooSoon && !isUnavailable && (
                           <span className='block text-xs'>Недоступно</span>
                         )}
                       </button>
