@@ -115,7 +115,7 @@ export function BookingPage() {
         .from('bookings')
         .select('*')
         .eq('booking_date', dateStr)
-        .neq('status', 'canceled')
+        .neq('status', 'cancelled')
 
       if (data) setBookedSlots(data as BookedSlot[])
     }
