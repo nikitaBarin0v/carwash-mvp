@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { useLocation } from "react-router-dom"
 
 const loginSchema = z.object({
   email: z.string().email('Введите корректный email'),
@@ -25,6 +26,9 @@ export function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
+  const location = useLocation();
+  const from = (location.state as { from?: string })?.from ?? '/'
+
   async function onSubmit(data: LoginForm) {
     setIsLoading(true)
     setError(null)
@@ -40,7 +44,7 @@ export function LoginPage() {
       return
     }
 
-    navigate('/')
+    navigate(from, { replace: true })
   }
 
   return (
